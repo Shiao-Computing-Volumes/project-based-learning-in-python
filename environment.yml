@@ -1,0 +1,13 @@
+name: project-based-learning-in-python
+channels:
+    - conda-forge
+dependencies:
+    - python==3.6.3
+    - jupyter==1.0.0
+    - numpy==1.17.2
+    - scipy==1.3.1
+    - matplotlib==3.1.1
+    - pandas==0.25.1
+    - networkx
+    - pip:
+        - ipython==7.8.0
