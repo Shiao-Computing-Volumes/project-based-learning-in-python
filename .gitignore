@@ -1,0 +1,12 @@
+# python
+*.pyc
+.ipynb_checkpoints
+
+# editor
+*.swo
+*.swm
+*.swn
+*.swp
+
+# os
+.DS_Store
