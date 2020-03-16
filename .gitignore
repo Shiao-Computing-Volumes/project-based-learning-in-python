@@ -1,6 +1,7 @@
 # python
 *.pyc
 .ipynb_checkpoints
+__pycache__
 
 # editor
 *.swo
@@ -10,3 +11,6 @@
 
 # os
 .DS_Store
+
+# outputs
+_outputs
