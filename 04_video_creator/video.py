@@ -8,7 +8,7 @@ class Video(object):
                        width=1280,
                        height=720,
                        fps=24, seconds=10,
-                       videotype='MP4V'):
+                       videotype='AVC1'):
 
         self._width = width
         self._height = height
