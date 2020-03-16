@@ -1,0 +1,112 @@
+I don't need to understand the code itself, as long as there is a comment saying what a section of code does. If I try to use a bit of code later in something else, I can do internet searches or ask you, to try to understand the process of a section of code.
+
+The program has this information available to reference:
+For step 1.a, below - page number location format:
+1 the end of the page, with chapter number at top
+
+2 the end of the page, except chapter title pages have no page number, only the chapter number at the top;
+2 book-specific: one end-of-chapter page, identified through the user's input.
+
+3 the end of the page, except chapter title pages have no page number, Nor any chapter number at the top;
+
+4 at the top of the page, except chapter title pages have no page number, only the chapter number at the top;
+
+5 at the top of the page, except chapter title pages have no page number, Nor any chapter number at the top;
+
+6 the top of the page (and also chapter number below that);
+
+7 the top of the page, except chapter title pages have the page number at the end of the page
+
+
+For step 1.d, below - firstPageOfchapterFormat:
+1) 1st or 2nd page after the last page of the prior chapter, and always only on an odd-numbered page. If last page of prior chapter was on an even-numbered page (like 20 or 44), first-page-of-chapter is on the next page (21 or 45). If last page of prior chapter was on an odd-numbered page (like 15 or 67), first-page-of-chapter is 2 pages after (17 or 69).
+2) 2nd or 3rd page after the last page of the prior chapter, and always only on an odd-numbered page. 
+If last page of prior chapter was on an odd-numbered page (like 17 or 29), first-page-of-chapter is 2 pages after (19 or 31).
+If last page of prior chapter was on an even-numbered page (like 32 or 70), first-page-of-chapter is 3 pages later (like 21 or 45).
+3) Immediately after the last page of the prior chapter.
+4) Immediately after the last chapter, sometimes starting on the same page (short article-style chapters).
+
+1) User should have the option, ideally at any time, to manually adjust the posited page-number breaks. It would be helpful to be able to lock chunks of rows, so that the program can't override that part, and can use that part to initialize the rest of adding page numbers.
+
+1) Get input from user:
+a) Where the page numbers are located (format types 1-7). Assign this to pageNumberLocationFormat.
+b) The user's list of page numbers to assign. Assign this list to pageNumbersList.
+c) List of pages that are the first pages of each chapter.
+d) First-page-of-chapter format (format types 1-4).
+e) Regular page minimum (offer the user the default suggested option of 8 rows)
+f) Regular page maximum (offer the user the default suggested option of 40 rows)
+g) Chapter title page minimum (offer the user the default suggested option of 1 row)
+h) Chapter title page maximum (offer the user the default suggested option of 20 rows)
+i) Last-page-of-a-chapter page minimum (offer the user the default suggested option of 1 row)
+j) Last-page-of-a-chapter page maximum  (offer the user the default suggested option of 20 rows)
+
+2) Can use spreadsheets I have manually populated with text from books. Or, could read from the PDF and write to a spreadsheet (that's not a high priority).
+
+3) IntegerList: Using the text, identify (add to a list) rows that contain integers.
+
+4) SuspiciousIntegerList1: Identify (add to a list) rows containing integers that might not be page numbers: Locate any integers preceded by or followed by a : (colon) or a . (period).
+
+5) Display a multi-selection list of SuspiciousIntegerList1. Then I can look through it, and deselect (delete the row index of) the rows that I want to put into a semiOkayIntegerList1.
+(This step could be changed to make the coding easier.)
+
+# End of the page, with chapter number at top:
+) If pageNumberLocationFormat == 1 AND firstPageOfchapterFormat == 1:
+a) For any number in pageNumbersList also in chapterTitlePagesList:
+Look for the chapter number, followed by an integer that (from the lists) should be same-page or after the first page of that chapter. Do this in sequence.
+Show the user the posited spreadsheet. Let them deselect any text that doesn't match the posited page number. (This is for first-page of chapters, only.)
+b) Fill in the rest of the pages.
+
+#the end of the page, except chapter title pages have no page number, only the chapter number at the top. Book-specific: one end-of-chapter page, identified through the user's input.
+) If pageNumberLocationFormat == 2 AND firstPageOfchapterFormat == 1:
+a) For any number in pageNumbersList also in chapterTitlePagesList:
+Look for the chapter number, followed by an integer (from the lists) that is after the first page of that chapter. Do this in sequence.
+Show the user the posited spreadsheet. Let them deselect any text that doesn't match the posited page number. (This is for first-page of chapters, only.)
+b) This will be tricky to isolate the start of the second page, and might be impossible unless the min and max rows of a full page are consistently the same.
+The user might need to manually select the end row of the text of each first page of a chapter.
+c) Fill in the rest of the pages.
+
+#the end of the page, except chapter title pages have no page number, Nor any chapter number at the top (THIS PROTOCOL IS INITIALLY THE SAME AS #3);
+) If pageNumberLocationFormat == 3 AND firstPageOfchapterFormat == 1:
+a) For any number in pageNumbersList also in chapterTitlePagesList:
+Show the user a selectable version of the spreadsheet. The user will manually select the rows and click 'OK' for each first-page of a chapter. The program lets the user input until as many chunks of rows as there are instances of page numbers occurring in both lists (above).
+c) Fill in the rest of the pages.
+
+#at the top of the page, except chapter title pages have no page number, only the chapter number at the top;
+) If pageNumberLocationFormat == 4 AND firstPageOfchapterFormat == 1:
+a) For any number in pageNumbersList also in chapterTitlePagesList:
+Look for the chapter number, followed by an integer (from the lists) that is after the first page of that chapter. Do this in sequence.
+b) Assign page number from chapterTitlePagesList, until the next row containing a number. For every instance where this is lower on the spreadsheet than the maximum rows allowed per chapter title page, present the user with a version of the spreadsheet that allows them to deselect/select rows, for each chapter title page that seems to need correction.
+c) Fill in the rest of the pages.
+
+#at the top of the page, except chapter title pages have no page number, Nor any chapter number at the top (THIS PROTOCOL IS INITIALLY THE SAME AS #3);
+) If pageNumberLocationFormat == 5 AND firstPageOfchapterFormat == 1:
+a) For any number in pageNumbersList also in chapterTitlePagesList:
+Show the user a selectable version of the spreadsheet. The user will manually select the rows and click 'OK' for each first-page of a chapter. The program lets the user input until as many chunks of rows as there are instances of page numbers occurring in both lists (above).
+c) Fill in the rest of the pages.
+
+#the top of the page (and also chapter number below that);
+) If pageNumberLocationFormat == 6 AND firstPageOfchapterFormat == 1:
+a) For any number in pageNumbersList also in chapterTitlePagesList:
+Look for an integer (from the lists) that matches the first page of that chapter (the number right below that). Do this in sequence.
+b) Assign page number from chapterTitlePagesList, until the next row containing a number. For every instance where this is lower on the spreadsheet than the maximum rows allowed per chapter title page, present the user with a version of the spreadsheet that allows them to deselect/select rows, for each chapter title page that seems to need correction.
+c) Fill in the rest of the pages.
+
+#the top of the page, except chapter title pages have the page number at the end of the page.
+) If pageNumberLocationFormat == 7 AND firstPageOfchapterFormat == 1:
+a) For any number in pageNumbersList also in chapterTitlePagesList:
+Look for the chapter number, followed by an integer that (from the lists) should be same-page or after the first page of that chapter. Do this in sequence.
+Show the user the posited spreadsheet. Let them deselect any text that doesn't match the posited page number. (This is for first-page of chapters, only.)
+b) Fill in the rest of the pages.
+
+
+
+
+
+
+) ConfirmedPageBreakList: Take the list of page numbers, and chapterTitlePagesList. Add any numbers that are contained in both lists to the ConfirmedPageBreakList.
+
+) In the spreadsheet, depending on the page number location format type (1-7), assign 'PageBreaker' to column E, in the rows between the text of each page.
+
+) ComprehensivePageBreakList: Mesh the and the ConfirmedIntegerList.
+
+) If the 

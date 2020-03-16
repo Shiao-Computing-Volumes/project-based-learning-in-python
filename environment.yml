@@ -11,3 +11,5 @@ dependencies:
     - networkx
     - pip:
         - ipython==7.8.0
+        - turtles
+        - ipyturtle
