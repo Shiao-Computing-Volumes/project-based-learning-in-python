@@ -16,3 +16,4 @@ dependencies:
         - ipyturtle
         - opencv-python
         - ffmpeg-python
+        - pyknon
